@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pesquisa de Automóvel</title>
+</head>
+<body>
+  <h1>Pesquisa de Automóvel</h1>
+
+  <label for="placa">Digite a placa do automóvel:</label>
+  <input type="text" id="placa">
+
+  <button onclick="pesquisarAutomovel()">Pesquisar</button>
+
+  <script src="automoveis.json"></script>
+  <script>
+    // Carrega o arquivo JSON
+    fetch('automoveis.json')
+      .then(response => response.json())
+      .then(data => {
+        // Atribui o conteúdo do arquivo JSON à variável automoveis
+        var automoveis = data;
+
+        // Define a função pesquisarAutomovel com acesso aos dados do arquivo JSON
+        window.pesquisarAutomovel = function() {
+          var placa = document.getElementById("placa").value;
+
+          // Pesquisa no array de automóveis pelo objeto com a placa correspondente
+          var automovelEncontrado = automoveis.find(function(automovel) {
+            return automovel.placa === placa;
+          });
+
+          if (automovelEncontrado) {
+            var mensagem = "Informações do automóvel:";
+            mensagem += "\nPlaca: " + automovelEncontrado.placa;
+            mensagem += "\nMarca: " + automovelEncontrado.Marca;
+            mensagem += "\nModelo: " + automovelEncontrado.Modelo;
+            mensagem += "\nAno: " + automovelEncontrado.Ano;
+
+            alert(mensagem);
+          } else {
+            alert("Nenhum automóvel encontrado com essa placa.");
+          }
+        };
+      })
+      .catch(error => console.error(error));
+  </script>
+</body>
+</html>
